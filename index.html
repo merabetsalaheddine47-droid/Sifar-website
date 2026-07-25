@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sifar — Websites for Small Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand: #EDE4D3;
+    --sand-light: #F6F0E4;
+    --ink: #221D18;
+    --indigo: #1F2E4D;
+    --indigo-deep: #16233C;
+    --rust: #A8452C;
+    --gold: #C08A2E;
+    --line: rgba(34,29,24,0.18);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--sand);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-weight:400;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Cairo', sans-serif;
+    font-weight:800;
+    letter-spacing:-0.01em;
+  }
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-size:0.72rem;
+  }
+  a{ color:inherit; text-decoration:none; }
+
+  /* ---------- pattern divider (signature element) ---------- */
+  .weave{
+    width:100%;
+    height:22px;
+    display:block;
+  }
+  .weave svg{ width:100%; height:100%; display:block; }
+
+  /* ---------- header ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 6vw;
+    background:rgba(237,228,211,0.86);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Cairo',sans-serif; font-weight:900; font-size:1.35rem;
+    color:var(--indigo);
+  }
+  .logo .yaz{
+    font-size:1.6rem; color:var(--rust); line-height:1;
+  }
+  nav{ display:flex; gap:2.4rem; }
+  nav a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--ink); opacity:0.75; transition:opacity 0.25s, color 0.25s;
+    position:relative;
+  }
+  nav a:hover{ opacity:1; color:var(--rust); }
+  .nav-cta{
+    background:var(--indigo); color:var(--sand-light) !important;
+    padding:10px 20px; border-radius:2px; opacity:1 !important;
+    letter-spacing:0.08em;
+  }
+  .nav-cta:hover{ background:var(--rust); color:var(--sand-light) !important; }
+  @media (max-width:820px){ nav .nav-links{ display:none; } }
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:140px 6vw 90px;
+    position:relative;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.3fr 0.9fr; gap:60px; align-items:center;
+  }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+
+  .eyebrow{
+    display:flex; align-items:center; gap:10px;
+    color:var(--rust); margin-bottom:26px;
+  }
+  .eyebrow::before{
+    content:''; width:28px; height:1px; background:var(--rust);
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 5.6vw, 4.6rem);
+    line-height:1.04;
+    color:var(--indigo-deep);
+  }
+  .hero h1 em{
+    font-style:normal; color:var(--rust);
+  }
+  .hero p.lede{
+    margin-top:26px;
+    font-size:1.15rem; line-height:1.65;
+    max-width:46ch; color:rgba(34,29,24,0.8);
+  }
+  .hero-actions{ margin-top:40px; display:flex; gap:18px; flex-wrap:wrap; }
+  .btn{
+    font-family:'IBM Plex Mono',monospace; font-size:0.78rem; text-transform:uppercase;
+    letter-spacing:0.08em; padding:16px 28px; border-radius:2px;
+    display:inline-flex; align-items:center; gap:10px;
+    transition:transform 0.25s, background 0.25s, color 0.25s;
+  }
+  .btn-primary{ background:var(--indigo); color:var(--sand-light); }
+  .btn-primary:hover{ background:var(--rust); transform:translateY(-2px); }
+  .btn-ghost{ border:1px solid var(--line); color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--rust); color:var(--rust); transform:translateY(-2px); }
+
+  /* hero motif panel */
+  .motif-panel{
+    aspect-ratio:1/1.05;
+    background:var(--indigo-deep);
+    border-radius:4px;
+    position:relative;
+    overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .motif-panel .yaz-big{
+    font-family:'Cairo',sans-serif; font-weight:900;
+    font-size:min(30vw,220px); color:var(--sand);
+    opacity:0.94;
+  }
+  .motif-panel::before{
+    content:''; position:absolute; inset:18px;
+    border:1px solid rgba(237,228,211,0.35);
+  }
+  .motif-corner{
+    position:absolute; width:60px; height:60px;
+  }
+  .motif-corner svg{ width:100%; height:100%; }
+  .motif-corner.tl{ top:18px; left:18px; }
+  .motif-corner.tr{ top:18px; right:18px; transform:scaleX(-1); }
+  .motif-corner.bl{ bottom:18px; left:18px; transform:scaleY(-1); }
+  .motif-corner.br{ bottom:18px; right:18px; transform:scale(-1,-1); }
+
+  /* ---------- section shell ---------- */
+  section{ padding:110px 6vw; position:relative; }
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-bottom:64px; gap:30px; flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-size:clamp(2rem,3.6vw,2.8rem); color:var(--indigo-deep);
+  }
+  .section-tag{
+    color:var(--rust); margin-bottom:14px; display:block;
+  }
+  .section-note{
+    max-width:38ch; font-size:0.98rem; line-height:1.6; color:rgba(34,29,24,0.7);
+  }
+
+  /* ---------- services ---------- */
+  .services{ background:var(--sand-light); }
+  .service-list{
+    display:flex; flex-direction:column; border-top:1px solid var(--line);
+  }
+  .service-row{
+    display:grid; grid-template-columns:100px 1.1fr 1.4fr 140px;
+    align-items:center; gap:30px;
+    padding:34px 0; border-bottom:1px solid var(--line);
+    transition:background 0.3s;
+  }
+  .service-row:hover{ background:rgba(168,69,44,0.05); }
+  @media (max-width:900px){
+    .service-row{ grid-template-columns:1fr; gap:10px; padding:28px 0; }
+    .service-row .service-cta{ justify-self:start; margin-top:6px; }
+  }
+  .service-mark{
+    font-family:'Cairo',sans-serif; font-weight:900; font-size:1.1rem; color:var(--rust);
+  }
+  .service-row h3{ font-size:1.4rem; color:var(--indigo-deep); }
+  .service-row p{ font-size:0.95rem; line-height:1.55; color:rgba(34,29,24,0.72); }
+  .service-cta{
+    font-family:'IBM Plex Mono',monospace; font-size:0.72rem; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--indigo); justify-self:end;
+    display:flex; align-items:center; gap:8px;
+  }
+  .service-row:hover .service-cta{ color:var(--rust); }
+
+  /* ---------- process ---------- */
+  .process{ background:var(--indigo-deep); color:var(--sand-light); }
+  .process .section-tag{ color:var(--gold); }
+  .process .section-head h2{ color:var(--sand-light); }
+  .process .section-note{ color:rgba(246,240,228,0.7); }
+  .process-list{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:rgba(246,240,228,0.15);
+  }
+  @media (max-width:900px){ .process-list{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .process-list{ grid-template-columns:1fr; } }
+  .process-card{
+    background:var(--indigo-deep); padding:38px 26px;
+  }
+  .process-card .mono{ color:var(--gold); }
+  .process-card h3{ margin-top:16px; font-size:1.15rem; color:var(--sand-light); }
+  .process-card p{ margin-top:12px; font-size:0.9rem; line-height:1.55; color:rgba(246,240,228,0.68); }
+
+  /* ---------- contact ---------- */
+  .contact{
+    background:var(--sand);
+    display:grid; grid-template-columns:1fr 1fr; gap:60px;
+  }
+  @media (max-width:900px){ .contact{ grid-template-columns:1fr; } }
+  .contact h2{ font-size:clamp(2rem,4vw,3rem); color:var(--indigo-deep); }
+  .contact .section-tag{ color:var(--rust); }
+  .contact p.lede{ margin-top:22px; font-size:1.05rem; line-height:1.6; max-width:44ch; color:rgba(34,29,24,0.75); }
+  .contact-links{ margin-top:36px; display:flex; flex-direction:column; gap:16px; }
+  .contact-links a{
+    font-family:'Cairo',sans-serif; font-weight:700; font-size:1.2rem; color:var(--indigo);
+    display:inline-flex; align-items:center; gap:12px; width:fit-content;
+    border-bottom:1px solid transparent;
+  }
+  .contact-links a:hover{ color:var(--rust); border-color:var(--rust); }
+
+  form{ display:flex; flex-direction:column; gap:18px; }
+  .field{ display:flex; flex-direction:column; gap:8px; }
+  .field label{ font-family:'IBM Plex Mono',monospace; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--indigo); }
+  .field input, .field textarea{
+    background:var(--sand-light); border:1px solid var(--line); border-radius:2px;
+    padding:14px 16px; font-family:'Inter',sans-serif; font-size:0.95rem; color:var(--ink);
+    outline:none; transition:border-color 0.2s;
+  }
+  .field input:focus, .field textarea:focus{ border-color:var(--rust); }
+  .field textarea{ resize:vertical; min-height:100px; }
+  form button{
+    align-self:flex-start; margin-top:6px;
+    background:var(--indigo); color:var(--sand-light);
+    font-family:'IBM Plex Mono',monospace; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em;
+    padding:16px 30px; border:none; border-radius:2px; cursor:pointer;
+    transition:background 0.25s, transform 0.25s;
+  }
+  form button:hover{ background:var(--rust); transform:translateY(-2px); }
+
+  footer{
+    padding:34px 6vw; display:flex; justify-content:space-between; align-items:center;
+    border-top:1px solid var(--line); flex-wrap:wrap; gap:14px;
+  }
+  footer .mono{ color:rgba(34,29,24,0.55); }
+
+  /* reveal on scroll */
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .btn, form button{ transition:none; }
+  }
+
+  :focus-visible{ outline:2px solid var(--rust); outline-offset:3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span class="yaz">ⵣ</span>SIFAR</div>
+  <nav>
+    <div class="nav-links" style="display:flex; gap:2.4rem; align-items:center;">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#contact" class="nav-cta">Start a project</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<div class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow mono">Websites, built by hand — Sifar</span>
+      <h1>Every small business<br>deserves a site as <em>real</em><br>as the work behind it.</h1>
+      <p class="lede">Sifar designs and builds custom websites for small businesses across every trade — no templates stretched thin, no cookie-cutter themes. One person, one inbox, one build tailored to what your business actually does.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Tell me about your business →</a>
+        <a href="#services" class="btn btn-ghost">See what's included</a>
+      </div>
+    </div>
+    <div class="motif-panel">
+      <div class="motif-corner tl">
+        <svg viewBox="0 0 60 60" fill="none" stroke="#EDE4D3" stroke-width="1.4">
+          <path d="M2 20 L20 2" /><path d="M2 12 L12 2" /><path d="M2 28 L28 2" />
+        </svg>
+      </div>
+      <div class="motif-corner tr">
+        <svg viewBox="0 0 60 60" fill="none" stroke="#EDE4D3" stroke-width="1.4">
+          <path d="M2 20 L20 2" /><path d="M2 12 L12 2" /><path d="M2 28 L28 2" />
+        </svg>
+      </div>
+      <div class="motif-corner bl">
+        <svg viewBox="0 0 60 60" fill="none" stroke="#EDE4D3" stroke-width="1.4">
+          <path d="M2 20 L20 2" /><path d="M2 12 L12 2" /><path d="M2 28 L28 2" />
+        </svg>
+      </div>
+      <div class="motif-corner br">
+        <svg viewBox="0 0 60 60" fill="none" stroke="#EDE4D3" stroke-width="1.4">
+          <path d="M2 20 L20 2" /><path d="M2 12 L12 2" /><path d="M2 28 L28 2" />
+        </svg>
+      </div>
+      <div class="yaz-big">ⵣ</div>
+    </div>
+  </div>
+</div>
+
+<div class="weave" aria-hidden="true">
+  <svg preserveAspectRatio="none" viewBox="0 0 400 22"><g fill="none" stroke="#221D18" stroke-opacity="0.35" stroke-width="1.4">
+    <path d="M0 11 L11 0 L22 11 L33 0 L44 11 L55 0 L66 11 L77 0 L88 11 L99 0 L110 11 L121 0 L132 11 L143 0 L154 11 L165 0 L176 11 L187 0 L198 11 L209 0 L220 11 L231 0 L242 11 L253 0 L264 11 L275 0 L286 11 L297 0 L308 11 L319 0 L330 11 L341 0 L352 11 L363 0 L374 11 L385 0 L396 11 L407 0"/>
+    <path d="M0 11 L11 22 L22 11 L33 22 L44 11 L55 22 L66 11 L77 22 L88 11 L99 22 L110 11 L121 22 L132 11 L143 22 L154 11 L165 22 L176 11 L187 22 L198 11 L209 22 L220 11 L231 22 L242 11 L253 22 L264 11 L275 22 L286 11 L297 22 L308 11 L319 22 L330 11 L341 22 L352 11 L363 22 L374 11 L385 22 L396 11 L407 22"/>
+  </g></svg>
+</div>
+
+<!-- ================= SERVICES ================= -->
+<section id="services" class="services">
+  <div class="section-head reveal">
+    <div>
+      <span class="section-tag mono">What Sifar offers</span>
+      <h2>A full build, run by one<br>person who answers the phone.</h2>
+    </div>
+    <p class="section-note">Every engagement runs the same way: you describe the business, I handle design, build, and every inquiry until it's live.</p>
+  </div>
+
+  <div class="service-list">
+    <div class="service-row reveal">
+      <span class="service-mark">ⵣ01</span>
+      <h3>Custom Design</h3>
+      <p>A layout and visual identity built around your business — your trade, your customers, your story. Not a reused theme with your logo dropped in.</p>
+      <a href="#contact" class="service-cta">Inquire →</a>
+    </div>
+    <div class="service-row reveal">
+      <span class="service-mark">ⵣ02</span>
+      <h3>Full Website Build</h3>
+      <p>From homepage to contact form — responsive on every device, fast to load, and easy for your customers to find what they need.</p>
+      <a href="#contact" class="service-cta">Inquire →</a>
+    </div>
+    <div class="service-row reveal">
+      <span class="service-mark">ⵣ03</span>
+      <h3>Domain &amp; Hosting Setup</h3>
+      <p>I handle the technical setup — domain connection, hosting, and deployment — so your site is simply live, no jargon required on your end.</p>
+      <a href="#contact" class="service-cta">Inquire →</a>
+    </div>
+    <div class="service-row reveal">
+      <span class="service-mark">ⵣ04</span>
+      <h3>Local SEO Basics</h3>
+      <p>Titles, descriptions, and page structure set up so your business actually shows up when nearby customers search for what you do.</p>
+      <a href="#contact" class="service-cta">Inquire →</a>
+    </div>
+    <div class="service-row reveal">
+      <span class="service-mark">ⵣ05</span>
+      <h3>Direct Support</h3>
+      <p>No ticket system, no outsourced chat. Every inquiry and revision request goes straight to me until you're fully satisfied with the result.</p>
+      <a href="#contact" class="service-cta">Inquire →</a>
+    </div>
+  </div>
+</section>
+
+<div class="weave" aria-hidden="true">
+  <svg preserveAspectRatio="none" viewBox="0 0 400 22"><g fill="none" stroke="#221D18" stroke-opacity="0.35" stroke-width="1.4">
+    <path d="M0 11 L11 0 L22 11 L33 0 L44 11 L55 0 L66 11 L77 0 L88 11 L99 0 L110 11 L121 0 L132 11 L143 0 L154 11 L165 0 L176 11 L187 0 L198 11 L209 0 L220 11 L231 0 L242 11 L253 0 L264 11 L275 0 L286 11 L297 0 L308 11 L319 0 L330 11 L341 0 L352 11 L363 0 L374 11 L385 0 L396 11 L407 0"/>
+    <path d="M0 11 L11 22 L22 11 L33 22 L44 11 L55 22 L66 11 L77 22 L88 11 L99 22 L110 11 L121 22 L132 11 L143 22 L154 11 L165 22 L176 11 L187 22 L198 11 L209 22 L220 11 L231 22 L242 11 L253 22 L264 11 L275 22 L286 11 L297 22 L308 11 L319 22 L330 11 L341 22 L352 11 L363 22 L374 11 L385 22 L396 11 L407 22"/>
+  </g></svg>
+</div>
+
+<!-- ================= PROCESS ================= -->
+<section id="process" class="process">
+  <div class="section-head reveal">
+    <div>
+      <span class="section-tag mono">How a project runs</span>
+      <h2>Four steps, start to launch.</h2>
+    </div>
+    <p class="section-note">No matter the niche — a bakery, a repair shop, a studio — every build follows the same clear path.</p>
+  </div>
+  <div class="process-list">
+    <div class="process-card reveal">
+      <span class="mono">Step 01</span>
+      <h3>Inquiry</h3>
+      <p>You tell me about the business — what you do, who you serve, what you need the site to achieve.</p>
+    </div>
+    <div class="process-card reveal">
+      <span class="mono">Step 02</span>
+      <h3>Design</h3>
+      <p>I put together a look and layout built specifically for your business, and walk you through it.</p>
+    </div>
+    <div class="process-card reveal">
+      <span class="mono">Step 03</span>
+      <h3>Build</h3>
+      <p>The site gets built, tested on mobile and desktop, and refined with your feedback.</p>
+    </div>
+    <div class="process-card reveal">
+      <span class="mono">Step 04</span>
+      <h3>Launch</h3>
+      <p>Domain connected, site live, and I stay on hand for anything that comes up after.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="contact">
+  <div class="reveal">
+    <span class="section-tag mono">Start a project</span>
+    <h2>Tell me about your business.</h2>
+    <p class="lede">Every project starts with a conversation, not a form you send into the void. Reach out directly, or send the basics below and I'll follow up personally.</p>
+    <div class="contact-links">
+      <a href="mailto:hello@sifar.studio">hello@sifar.studio ↗</a>
+      <a href="tel:+000000000">+00 000 000 000 ↗</a>
+    </div>
+  </div>
+  <form class="reveal" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Sent — I\'ll be in touch';">
+    <div class="field">
+      <label for="name">Your name</label>
+      <input id="name" type="text" required placeholder="Full name">
+    </div>
+    <div class="field">
+      <label for="business">Business &amp; niche</label>
+      <input id="business" type="text" required placeholder="e.g. Amina's Bakery — bakery/cafe">
+    </div>
+    <div class="field">
+      <label for="msg">What do you need?</label>
+      <textarea id="msg" required placeholder="A few lines about your business and what you're looking for"></textarea>
+    </div>
+    <button type="submit">Send inquiry</button>
+  </form>
+</section>
+
+<footer>
+  <span class="mono">ⵣ Sifar — 2026</span>
+  <span class="mono">Built for every niche, one business at a time</span>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:0.15 });
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
